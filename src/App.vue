@@ -1,55 +1,27 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router';
 import { onMounted } from 'vue';
-// import { useRatingsStore } from './stores/routes-ratings-store';
+import { useRatingsStore } from './stores/routes-ratings-store';
+
 export default {
+	setup() {
+		const ratingsStore = useRatingsStore();
+		const ratingOptions = ratingsStore.ratingOptions;
+
+		return {
+			ratingOptions,
+		};
+	},
+
 	data() {
 		return {
 			inputName: null,
-			inputDate: null,
+			inputDate: new Date().toISOString().slice(0, 10),
 			inputRating: null,
 			inputComment: null,
 			inputIsPassed: false,
 			trainingDays: [],
 			routes: [],
-			ratingOptions: [
-				{ value: '4a' },
-				{ value: '4a+' },
-				{ value: '4b' },
-				{ value: '4b+' },
-				{ value: '4c' },
-				{ value: '4c+' },
-				{ value: '5a' },
-				{ value: '5a+' },
-				{ value: '5b' },
-				{ value: '5b+' },
-				{ value: '5c' },
-				{ value: '5c+' },
-				{ value: '6a' },
-				{ value: '6a+' },
-				{ value: '6b' },
-				{ value: '6b+' },
-				{ value: '6c' },
-				{ value: '6c+' },
-				{ value: '7a' },
-				{ value: '7a+' },
-				{ value: '7b' },
-				{ value: '7b+' },
-				{ value: '7c' },
-				{ value: '7c+' },
-				{ value: '8a' },
-				{ value: '8a+' },
-				{ value: '8b' },
-				{ value: '8b+' },
-				{ value: '8c' },
-				{ value: '8c+' },
-				{ value: '9a' },
-				{ value: '9a+' },
-				{ value: '9b' },
-				{ value: '9b+' },
-				{ value: '9c' },
-				{ value: '9c+' },
-			],
 		};
 	},
 	methods: {
@@ -105,11 +77,8 @@ export default {
 			this.inputName = null;
 			this.inputDate = null;
 			this.inputRating = null;
-			this.inputIsPassed = false;
 			this.inputComment = null;
 			this.inputIsPassed = false;
-
-			// console.log(this.trainingDays);
 		},
 	},
 };
@@ -117,7 +86,7 @@ export default {
 
 <template>
 	<div class="form-container">
-		<form action="#" method="post" class="form addRouteForm">
+		<form action="#" method="post" class="addRouteForm">
 			<label for="date">Date:</label>
 			<input v-model="inputDate" type="date" id="date" name="date" required /><br /><br />
 			<label for="route-name">Name:</label>
@@ -131,7 +100,7 @@ export default {
 			/><br /><br />
 			<label for="rating">Rating:</label>
 			<select v-model="inputRating" id="rating" name="rating">
-				<option v-for="(option, idx) in ratingOptions" :key="idx" :value="option.value">
+				<option v-for="(option, idx) in ratingOptions" :key="idx">
 					{{ option.value }}
 				</option></select
 			><br /><br />
@@ -146,7 +115,14 @@ export default {
 			><br /><br />
 			<input v-model="inputIsPassed" type="checkbox" id="passed" name="passed" />
 			<label for="passed">Passed?</label><br /><br />
-			<button @click="addNewTrainingDay" type="submit" class="submit-button">Add</button>
+			<button
+				@click="addNewTrainingDay"
+				:disabled="inputName === null || inputRating === null || inputDate === null"
+				type="submit"
+				class="submit-button"
+			>
+				Add
+			</button>
 		</form>
 	</div>
 	<div v-if="trainingDays.length" class="training-list-container">
@@ -224,7 +200,7 @@ header {
 }
 
 .route-comment {
-	word-wrap: break-word; /* Добавляем свойство word-wrap для переноса текста */
+	word-wrap: break-word;
 }
 nav {
 	width: 100%;
