@@ -53,7 +53,7 @@ export default {
 		};
 	},
 	methods: {
-		addNewRoute() {
+		addNewTrainingDay() {
 			// date = format(date, 'dd-MM-yyyy');
 			// const newId = (Math.random() + 1).toString(36).substring(3);
 			const route = {
@@ -78,11 +78,12 @@ export default {
 				this.trainingDays.forEach(day => {
 					// check if route already exists in this day
 					if (day.date === this.inputDate) {
-						console.log('day', day);
+						console.log('same day', day);
 						const existingRoute = day.routes.find(
 							r => r.name === route.name && r.rating === route.rating
 						);
 						if (existingRoute) {
+							routeAdded = true;
 							console.log('existingRoute', existingRoute);
 							existingRoute.attempts += 1;
 							if (route.isPassed) existingRoute.isPassed = true;
@@ -105,62 +106,18 @@ export default {
 			this.inputDate = null;
 			this.inputRating = null;
 			this.inputIsPassed = false;
-			this.inputRating = null;
 			this.inputComment = null;
 			this.inputIsPassed = false;
 
 			// console.log(this.trainingDays);
 		},
 	},
-	addNewRoute2() {
-		const formattedDate = formatDate(this.inputDate);
-		const route = {
-			name: this.inputName,
-			rating: this.inputRating, // assuming inputRating is the correct variable
-			attempts: 1,
-			isPassed: this.inputIsPassed,
-			comment: this.inputComment,
-		};
-
-		if (this.trainingDays.length === 0) {
-			this.trainingDays.push({
-				date: formattedDate,
-				routes: [route],
-			});
-		} else {
-			let dayFound = false;
-			this.trainingDays.forEach(day => {
-				if (day.date === formattedDate) {
-					const existingRoute = day.routes.find(
-						r => r.name === route.name && r.rating === route.rating
-					);
-					if (existingRoute) {
-						existingRoute.attempts += 1;
-						if (route.isPassed) {
-							existingRoute.isPassed = true;
-						}
-					} else {
-						day.routes.push(route);
-					}
-					dayFound = true;
-				}
-			});
-
-			// If the day is not found, add it to the list
-			if (!dayFound) {
-				this.trainingDays.push({
-					date: formattedDate,
-					routes: [route],
-				});
-			}
-		}
-	},
 };
 </script>
 
 <template>
-	<div class="container">
-		<form action="#" method="post" class="form">
+	<div class="form-container">
+		<form action="#" method="post" class="form addRouteForm">
 			<label for="date">Date:</label>
 			<input v-model="inputDate" type="date" id="date" name="date" required /><br /><br />
 			<label for="route-name">Name:</label>
@@ -189,34 +146,29 @@ export default {
 			><br /><br />
 			<input v-model="inputIsPassed" type="checkbox" id="passed" name="passed" />
 			<label for="passed">Passed?</label><br /><br />
-			<button @click="addNewRoute" type="submit" class="submit-button">Add</button>
+			<button @click="addNewTrainingDay" type="submit" class="submit-button">Add</button>
 		</form>
 	</div>
-	<!-- <template>
-		<div class="container">
-			<div class="training-list">
-				<div
-					v-for="(day, index) in trainingDays"
-					:key="index"
-					class="training-day"
-				>
+	<div v-if="trainingDays.length" class="training-list-container">
+		<div class="training-list">
+			<div v-for="(day, index) in trainingDays" :key="index" class="training-day">
+				<div class="training-day-date">
 					<h3>{{ day.date }}</h3>
-					<ul>
-						<li
-							v-for="(route, routeIndex) in day.routes"
-							:key="routeIndex"
-							class="route-item"
-						>
-							<p>
-								Тренировка {{ routeIndex + 1 }}:
-								{{ route.name }}
-							</p>
-						</li>
-					</ul>
+				</div>
+				<div v-for="(route, routeIndex) in day.routes" :key="routeIndex" class="route-item">
+					<p>
+						<strong>{{ route.name }}</strong>
+					</p>
+					<p>Rating: {{ route.rating }}</p>
+					<div v-if="route.comment" class="route-comment">
+						Comment: {{ route.comment }}
+					</div>
+					<p>Attempts: {{ route.attempts }}</p>
+					<p v-if="route.isPassed">Passed</p>
 				</div>
 			</div>
 		</div>
-	</template> -->
+	</div>
 </template>
 
 <style scoped>
@@ -225,65 +177,59 @@ header {
 	max-height: 100vh;
 }
 
-.logo {
-	display: block;
-	margin: 0 auto 2rem;
+.form-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 50px;
+}
+.addRouteForm {
+	background-color: rgb(217, 217, 217);
+	padding: 10px;
+	border: 2px solid black;
+}
+.training-list-container {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.training-list {
+	width: 300px;
+	background-color: rgb(217, 217, 217);
+	padding: 10px;
+	border: 2px solid black;
 }
 
-.addRouteForm {
-	background-color: rgb(180, 180, 180);
+.training-day {
+	background-color: #f5f5f5;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	margin-bottom: 10px;
 	padding: 10px;
-	border: 2px;
+}
+
+.training-day-date {
+	margin-bottom: 0px;
+}
+
+.training-day-date h3 {
+	margin-left: 15px;
+}
+.route-item {
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+.route-comment {
+	word-wrap: break-word; /* Добавляем свойство word-wrap для переноса текста */
 }
 nav {
 	width: 100%;
 	font-size: 12px;
 	text-align: center;
 	margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-	color: var(--color-rtId);
-}
-
-nav a.router-link-exact-active:hover {
-	background-color: transparent;
-}
-
-nav a {
-	display: inline-block;
-	padding: 0 1rem;
-	border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-	border: 0;
-}
-
-@media (min-width: 1024px) {
-	header {
-		display: flex;
-		place-items: center;
-		padding-right: calc(var(--section-gap) / 2);
-	}
-
-	.logo {
-		margin: 0 2rem 0 0;
-	}
-
-	header .wrapper {
-		display: flex;
-		place-items: flex-start;
-		flex-wrap: wrap;
-	}
-
-	nav {
-		text-align: left;
-		margin-left: -1rem;
-		font-size: 1rem;
-
-		padding: 1rem 0;
-		margin-top: 1rem;
-	}
 }
 </style>
