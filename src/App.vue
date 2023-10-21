@@ -1,7 +1,7 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router';
 import { onMounted } from 'vue';
-import { useRatingsStore } from './stores/routes-ratings-store';
+// import { useRatingsStore } from './stores/routes-ratings-store';
 export default {
 	data() {
 		return {
@@ -11,6 +11,7 @@ export default {
 			inputComment: null,
 			inputIsPassed: false,
 			trainingDays: [],
+			routes: [],
 			ratingOptions: [
 				{ value: '4a' },
 				{ value: '4a+' },
@@ -52,113 +53,170 @@ export default {
 		};
 	},
 	methods: {
-		addNewRoute(date = new Date(), name, rating, comment = null, isPassed) {
-			date = format(date, 'dd-MM-yyyy');
+		addNewRoute() {
+			// date = format(date, 'dd-MM-yyyy');
 			// const newId = (Math.random() + 1).toString(36).substring(3);
 			const route = {
-				name: name,
-				rating: rating,
+				name: this.inputName,
+				rating: this.inputRating,
 				attempts: 1,
-				isPassed: isPassed,
-				comment: comment,
+				isPassed: this.inputIsPassed,
+				comment: this.inputComment,
 			};
-			console.log(`Route- ${route}`);
-			if (!this.trainingDays.length) {
-				this.trainingDays.push({ date: date, routes: [route] });
-				return;
-			}
-			let routeAdded = false;
-			this.trainingDays.forEach(day => {
-				if (day.date === date) {
-					// check if date already exists
-					const existingRoute = day.routes.find(
-						r => r.name === route.name
-					);
-					existingRoute
-						? (existingRoute.attempts += 1)
-						: (routeAdded = true);
+			console.log('route', route);
 
-					// If the route is not added yet, add it to the list
-					!routeAdded
-						? day.routes.push(route)
-						: this.trainingDays.push({
-								date: date,
-								routes: [route],
-						  });
-					if (!routeAdded) day.routes.push(route);
-				} else this.trainingDays.push({ date: date, routes: [route] });
-			});
+			let routeAdded = false;
+
+			if (!this.trainingDays.length) {
+				this.trainingDays.push({
+					date: this.inputDate,
+					routes: [route],
+				});
+				routeAdded = true;
+			}
+			if (!routeAdded) {
+				this.trainingDays.forEach(day => {
+					// check if route already exists in this day
+					if (day.date === this.inputDate) {
+						console.log('day', day);
+						const existingRoute = day.routes.find(
+							r => r.name === route.name && r.rating === route.rating
+						);
+						if (existingRoute) {
+							console.log('existingRoute', existingRoute);
+							existingRoute.attempts += 1;
+							if (route.isPassed) existingRoute.isPassed = true;
+						} else {
+							day.routes.push(route); // adding route to existing day
+							routeAdded = true;
+						}
+					}
+				});
+				// creating new day and pushing route
+				if (!routeAdded) {
+					this.trainingDays.push({
+						date: this.inputDate,
+						routes: [route],
+					});
+				}
+			}
+
+			this.inputName = null;
+			this.inputDate = null;
+			this.inputRating = null;
+			this.inputIsPassed = false;
+			this.inputRating = null;
+			this.inputComment = null;
+			this.inputIsPassed = false;
+
+			// console.log(this.trainingDays);
 		},
+	},
+	addNewRoute2() {
+		const formattedDate = formatDate(this.inputDate);
+		const route = {
+			name: this.inputName,
+			rating: this.inputRating, // assuming inputRating is the correct variable
+			attempts: 1,
+			isPassed: this.inputIsPassed,
+			comment: this.inputComment,
+		};
+
+		if (this.trainingDays.length === 0) {
+			this.trainingDays.push({
+				date: formattedDate,
+				routes: [route],
+			});
+		} else {
+			let dayFound = false;
+			this.trainingDays.forEach(day => {
+				if (day.date === formattedDate) {
+					const existingRoute = day.routes.find(
+						r => r.name === route.name && r.rating === route.rating
+					);
+					if (existingRoute) {
+						existingRoute.attempts += 1;
+						if (route.isPassed) {
+							existingRoute.isPassed = true;
+						}
+					} else {
+						day.routes.push(route);
+					}
+					dayFound = true;
+				}
+			});
+
+			// If the day is not found, add it to the list
+			if (!dayFound) {
+				this.trainingDays.push({
+					date: formattedDate,
+					routes: [route],
+				});
+			}
+		}
 	},
 };
 </script>
 
 <template>
 	<div class="container">
-		<div class="left">
-			<form action="#" method="post" class="form">
-				<label for="date">Date:</label>
-				<input
-					v-model="inputDate"
-					type="date"
-					id="date"
-					name="date"
-					required
-				/><br /><br />
-				<label for="route-name">Name:</label>
-				{{}}
-				<input
-					v-model="inputName"
-					type="text"
-					id="route-name"
-					name="route-name"
-					required
-				/><br /><br />
-				<label for="rating">Rating:</label>
-				<select id="rating" name="rating">
-					<option v-for="option in ratingOptions" value="easy">
-						{{ option.value }}
-					</option></select
-				><br /><br />
-				<label for="comment">Comment:</label><br />
-				<textarea
-					v-model="inputComment"
-					id="comment"
-					name="comment"
-					rows="4"
-					cols="30"
-				></textarea
-				><br /><br />
-				<input
-					v-model="inputIsPassed"
-					type="checkbox"
-					id="passed"
-					name="passed"
-				/>
-				<label for="passed">Passed?</label><br /><br />
-				<button
-					@click="
-						addNewRoute(
-							inputDate,
-							inputName,
-							inputRating,
-							inputComment,
-							inputIsPassed
-						)
-					"
-					type="submit"
-					class="submit-button"
+		<form action="#" method="post" class="form">
+			<label for="date">Date:</label>
+			<input v-model="inputDate" type="date" id="date" name="date" required /><br /><br />
+			<label for="route-name">Name:</label>
+			{{}}
+			<input
+				v-model="inputName"
+				type="text"
+				id="route-name"
+				name="route-name"
+				required
+			/><br /><br />
+			<label for="rating">Rating:</label>
+			<select v-model="inputRating" id="rating" name="rating">
+				<option v-for="(option, idx) in ratingOptions" :key="idx" :value="option.value">
+					{{ option.value }}
+				</option></select
+			><br /><br />
+			<label for="comment">Comment:</label><br />
+			<textarea
+				v-model="inputComment"
+				id="comment"
+				name="comment"
+				rows="4"
+				cols="30"
+			></textarea
+			><br /><br />
+			<input v-model="inputIsPassed" type="checkbox" id="passed" name="passed" />
+			<label for="passed">Passed?</label><br /><br />
+			<button @click="addNewRoute" type="submit" class="submit-button">Add</button>
+		</form>
+	</div>
+	<!-- <template>
+		<div class="container">
+			<div class="training-list">
+				<div
+					v-for="(day, index) in trainingDays"
+					:key="index"
+					class="training-day"
 				>
-					Add
-				</button>
-			</form>
-		</div>
-		<div class="right">
-			<div class="route">
-				<!-- Здесь будут добавленные трассы -->
+					<h3>{{ day.date }}</h3>
+					<ul>
+						<li
+							v-for="(route, routeIndex) in day.routes"
+							:key="routeIndex"
+							class="route-item"
+						>
+							<p>
+								Тренировка {{ routeIndex + 1 }}:
+								{{ route.name }}
+							</p>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
-	</div>
+	</template> -->
 </template>
 
 <style scoped>
