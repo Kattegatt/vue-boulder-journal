@@ -21,13 +21,24 @@ export default {
 			inputComment: null,
 			inputIsPassed: false,
 			trainingDays: [],
-			routes: [],
 		};
 	},
 	methods: {
+		removeRoute(route) {
+			this.trainingDays.forEach(d => {
+				d.routes = d.routes.filter(r => {
+					return r !== route;
+				});
+			});
+			this.trainingDays = this.trainingDays.filter(d => {
+				return d.routes.length;
+			});
+			// this.trainingDays.forEach((d, i) => {
+			// 	if (!d.routes.length) this.trainingDays.pop(d);
+			// });
+		},
+
 		addNewTrainingDay() {
-			// date = format(date, 'dd-MM-yyyy');
-			// const newId = (Math.random() + 1).toString(36).substring(3);
 			const route = {
 				name: this.inputName,
 				rating: this.inputRating,
@@ -35,8 +46,6 @@ export default {
 				isPassed: this.inputIsPassed,
 				comment: this.inputComment,
 			};
-			console.log('route', route);
-
 			let routeAdded = false;
 
 			if (!this.trainingDays.length) {
@@ -141,6 +150,9 @@ export default {
 					</div>
 					<p>Attempts: {{ route.attempts }}</p>
 					<p v-if="route.isPassed">Passed</p>
+					<button @click.stop="removeRoute(route)" type="button" class="delete-btn">
+						Del
+					</button>
 				</div>
 			</div>
 		</div>
@@ -194,9 +206,20 @@ header {
 	margin-left: 15px;
 }
 .route-item {
-	border-bottom: 1px solid #ddd;
+	position: relative;
+	border-bottom: 1px solid #988989;
 	padding-bottom: 10px;
 	margin-bottom: 10px;
+}
+.delete-btn {
+	background: none;
+	border: none;
+	color: red;
+	font-size: 18px;
+	position: absolute;
+	right: 43%;
+	bottom: 1%;
+	cursor: pointer;
 }
 
 .route-comment {
