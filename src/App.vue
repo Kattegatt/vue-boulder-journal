@@ -21,9 +21,47 @@ export default {
 			inputComment: null,
 			inputIsPassed: false,
 			trainingDays: [],
+			routes: [],
 		};
 	},
 	methods: {
+		resetFormFields() {
+			this.inputName = null;
+			(this.inputDate = new Date().toISOString().slice(0, 10)), (this.inputRating = null);
+			this.inputComment = null;
+			this.inputIsPassed = false;
+		},
+		addNewRoute() {
+			const route = {
+				date: this.inputDate,
+				name: this.inputName,
+				rating: this.inputRating,
+				attempts: 1,
+				isPassed: this.inputIsPassed,
+				comment: this.inputComment,
+			};
+
+			let routeExists = this.routes.some(r => {
+				if (r.date == route.date && r.name === route.name && r.rating === route.rating) {
+					r.attempts += 1;
+					r.isPassed = route.isPassed;
+					return true;
+				}
+				return false;
+			});
+
+			if (!routeExists) this.routes.push(route);
+
+			this.inputName = null;
+			this.inputDate = new Date().toISOString().slice(0, 10);
+			this.inputRating = null;
+			this.inputComment = null;
+			this.inputIsPassed = false;
+
+			// this.updateTrainingHistory();
+			// this.resetFormFields()
+		},
+
 		removeRoute(route) {
 			this.trainingDays.forEach(d => {
 				d.routes = d.routes.filter(r => {
@@ -125,7 +163,7 @@ export default {
 			<input v-model="inputIsPassed" type="checkbox" id="passed" name="passed" />
 			<label for="passed">Passed?</label><br /><br />
 			<button
-				@click="addNewTrainingDay"
+				@click="addNewRoute"
 				:disabled="inputName === null || inputRating === null || inputDate === null"
 				type="submit"
 				class="submit-button"
