@@ -66,9 +66,6 @@ export default {
 			this.trainingHistory = this.trainingHistory.filter(d => {
 				return d.routes.length;
 			});
-			// this.trainingHistory.forEach((d, i) => {
-			// 	if (!d.routes.length) this.trainingHistory.pop(d);
-			// });
 		},
 		updateTrainingHistory() {
 			let routes = this.routes;
