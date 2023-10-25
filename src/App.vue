@@ -20,7 +20,7 @@ export default {
 			inputRating: null,
 			inputComment: null,
 			inputIsPassed: false,
-			trainingDays: [],
+			trainingHistory: [],
 			routes: [],
 		};
 	},
@@ -58,69 +58,28 @@ export default {
 		},
 
 		removeRoute(route) {
-			this.trainingDays.forEach(d => {
+			this.trainingHistory.forEach(d => {
 				d.routes = d.routes.filter(r => {
 					return r !== route;
 				});
 			});
-			this.trainingDays = this.trainingDays.filter(d => {
+			this.trainingHistory = this.trainingHistory.filter(d => {
 				return d.routes.length;
 			});
-			// this.trainingDays.forEach((d, i) => {
-			// 	if (!d.routes.length) this.trainingDays.pop(d);
+			// this.trainingHistory.forEach((d, i) => {
+			// 	if (!d.routes.length) this.trainingHistory.pop(d);
 			// });
 		},
+		updateTrainingHistory() {
+			let routes = this.routes;
+			let uniqueDates = [...new Set(routes.map(r => r.date))];
 
-		addNewTrainingDay() {
-			const route = {
-				name: this.inputName,
-				rating: this.inputRating,
-				attempts: 1,
-				isPassed: this.inputIsPassed,
-				comment: this.inputComment,
-			};
-			let routeAdded = false;
+			let trainingHistory = uniqueDates.map(date => {
+				let filteredRoutes = routes.filter(r => r.date === date);
+				return { date: date, routes: filteredRoutes };
+			});
 
-			if (!this.trainingDays.length) {
-				this.trainingDays.push({
-					date: this.inputDate,
-					routes: [route],
-				});
-				routeAdded = true;
-			}
-			if (!routeAdded) {
-				this.trainingDays.forEach(day => {
-					// check if route already exists in this day
-					if (day.date === this.inputDate) {
-						console.log('same day', day);
-						const existingRoute = day.routes.find(
-							r => r.name === route.name && r.rating === route.rating
-						);
-						if (existingRoute) {
-							routeAdded = true;
-							console.log('existingRoute', existingRoute);
-							existingRoute.attempts += 1;
-							if (route.isPassed) existingRoute.isPassed = true;
-						} else {
-							day.routes.push(route); // adding route to existing day
-							routeAdded = true;
-						}
-					}
-				});
-				// creating new day and pushing route
-				if (!routeAdded) {
-					this.trainingDays.push({
-						date: this.inputDate,
-						routes: [route],
-					});
-				}
-			}
-
-			this.inputName = null;
-			this.inputDate = null;
-			this.inputRating = null;
-			this.inputComment = null;
-			this.inputIsPassed = false;
+			this.trainingHistory = trainingHistory;
 		},
 	},
 };
@@ -167,9 +126,9 @@ export default {
 			</button>
 		</form>
 	</div>
-	<div v-if="trainingDays.length" class="training-list-container">
+	<div v-if="trainingHistory.length" class="training-list-container">
 		<div class="training-list">
-			<div v-for="(day, index) in trainingDays" :key="index" class="training-day">
+			<div v-for="(day, index) in trainingHistory" :key="index" class="training-day">
 				<div class="training-day-date">
 					<h3>{{ day.date }}</h3>
 				</div>
