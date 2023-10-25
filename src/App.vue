@@ -41,25 +41,20 @@ export default {
 				comment: this.inputComment,
 			};
 
-			let routeExists = this.routes.some(r => {
-				if (r.date == route.date && r.name === route.name && r.rating === route.rating) {
-					r.attempts += 1;
-					r.isPassed = route.isPassed;
-					return true;
-				}
-				return false;
-			});
+			const existingRoute = this.routes.find(
+				r => r.date === route.date && r.name === route.name && r.rating === route.rating
+			);
+			console.log(`Exist route - ${existingRoute}`);
 
-			if (!routeExists) this.routes.push(route);
+			if (existingRoute) {
+				existingRoute.attempts += 1;
+				existingRoute.isPassed = route.isPassed;
+			} else {
+				this.routes.push(route);
+			}
 
-			this.inputName = null;
-			this.inputDate = new Date().toISOString().slice(0, 10);
-			this.inputRating = null;
-			this.inputComment = null;
-			this.inputIsPassed = false;
-
-			// this.updateTrainingHistory();
-			// this.resetFormFields()
+			this.resetFormFields();
+			this.updateTrainingHistory();
 		},
 
 		removeRoute(route) {
