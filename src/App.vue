@@ -83,7 +83,7 @@ export default {
 </script>
 
 <template>
-	<div class="form-container">
+	<div class="bg-black">
 		<form action="#" method="post" class="addRouteForm">
 			<label for="date">Date:</label>
 			<input v-model="inputDate" type="date" id="date" name="date" required /><br /><br />
@@ -149,7 +149,7 @@ export default {
 </template>
 
 <style scoped>
-header {
+/* header {
 	line-height: 1.5;
 	max-height: 100vh;
 }
@@ -219,5 +219,5 @@ nav {
 	font-size: 12px;
 	text-align: center;
 	margin-top: 2rem;
-}
+} */
 </style>
