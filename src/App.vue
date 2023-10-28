@@ -83,141 +83,110 @@ export default {
 </script>
 
 <template>
-	<div class="bg-black">
-		<form action="#" method="post" class="addRouteForm">
-			<label for="date">Date:</label>
-			<input v-model="inputDate" type="date" id="date" name="date" required /><br /><br />
-			<label for="route-name">Name:</label>
-			{{}}
-			<input
-				v-model="inputName"
-				type="text"
-				id="route-name"
-				name="route-name"
-				required
-			/><br /><br />
-			<label for="rating">Rating:</label>
-			<select v-model="inputRating" id="rating" name="rating">
-				<option v-for="(option, idx) in ratingOptions" :key="idx">
-					{{ option.value }}
-				</option></select
-			><br /><br />
-			<label for="comment">Comment:</label><br />
-			<textarea
-				v-model="inputComment"
-				id="comment"
-				name="comment"
-				rows="4"
-				cols="30"
-			></textarea
-			><br /><br />
-			<input v-model="inputIsPassed" type="checkbox" id="passed" name="passed" />
-			<label for="passed">Passed?</label><br /><br />
-			<button
-				@click="addNewRoute"
-				:disabled="inputName === null || inputRating === null || inputDate === null"
-				type="submit"
-				class="submit-button"
-			>
-				Add
-			</button>
+	<div class="flex justify-center bg-green-400 mb-5">
+		<form
+			action="#"
+			method="post"
+			class="absolute bg-slate-200 px-8 py-5 m-5 shadow-sm rounded-lg"
+		>
+			<div class="mb-3">
+				<label for="date" class="block mb-2 text-sm font-medium text-gray-900">Date:</label>
+				<input
+					v-model="inputDate"
+					type="date"
+					id="date"
+					name="date"
+					required
+					class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+				/>
+			</div>
+			<div class="mb-3">
+				<label for="route-name" class="block mb-2 text-sm font-medium text-gray-900"
+					>Route Name:</label
+				>
+				{{}}
+				<input
+					v-model="inputName"
+					type="text"
+					id="route-name"
+					name="route-name"
+					placeholder="Finger Crasher"
+					required
+					class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+				/>
+			</div>
+			<div class="mb-3">
+				<label for="rating" class="block mb-2 text-sm font-medium text-gray-900"
+					>Rating:</label
+				>
+				<select
+					v-model="inputRating"
+					id="rating"
+					name="rating"
+					class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+				>
+					<option v-for="(option, idx) in ratingOptions" :key="idx">
+						{{ option.value }}
+					</option>
+				</select>
+			</div>
+			<div class="mb-5">
+				<label for="comment" class="block mb-2 text-sm font-medium text-gray-900"
+					>Comment:</label
+				>
+				<textarea
+					v-model="inputComment"
+					id="comment"
+					name="comment"
+					rows="3"
+					cols="40"
+					class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+				></textarea>
+			</div>
+			<div class="mb-1">
+				<input
+					v-model="inputIsPassed"
+					type="checkbox"
+					id="passed"
+					name="passed"
+					class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
+				/>
+				<label for="passed" class="ml-2 text-sm font-medium text-gray-900">Passed?</label
+				><br /><br />
+			</div>
+			<div class="mb-1">
+				<button
+					@click="addNewRoute"
+					:disabled="inputName === null || inputRating === null || inputDate === null"
+					type="submit"
+					class="disabled:bg-gray-400 text-white bg-gray-700 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+				>
+					Add
+				</button>
+			</div>
 		</form>
 	</div>
-	<div v-if="trainingHistory.length" class="training-list-container">
-		<div class="training-list">
-			<div v-for="(day, index) in trainingHistory" :key="index" class="training-day">
-				<div class="training-day-date">
-					<h3>{{ day.date }}</h3>
-				</div>
-				<div v-for="(route, routeIndex) in day.routes" :key="routeIndex" class="route-item">
-					<p>
-						<strong>{{ route.name }}</strong>
-					</p>
-					<p>Rating: {{ route.rating }}</p>
-					<div v-if="route.comment" class="route-comment">
-						Comment: {{ route.comment }}
-					</div>
-					<p>Attempts: {{ route.attempts }}</p>
-					<p v-if="route.isPassed">Passed</p>
-					<button @click.stop="removeRoute(route)" type="button" class="delete-btn">
-						Del
-					</button>
-				</div>
+	<div v-if="trainingHistory.length" class="flex bg-black relative justify-center p-10">
+		<div
+			v-for="(day, index) in trainingHistory"
+			:key="index"
+			class="flex bg-gray-700 p-5 justify-items-center"
+		>
+			<div class="date">
+				<h3>{{ day.date }}</h3>
+			</div>
+			<div v-for="(route, routeIndex) in day.routes" :key="routeIndex" class="">
+				<p>
+					<strong>{{ route.name }}</strong>
+				</p>
+				<p>Rating: {{ route.rating }}</p>
+				<div v-if="route.comment" class="">Comment: {{ route.comment }}</div>
+				<p>Attempts: {{ route.attempts }}</p>
+				<p v-if="route.isPassed">Passed</p>
+				<button @click.stop="removeRoute(route)" type="button" class="">Del</button>
 			</div>
 		</div>
 	</div>
 </template>
 
-<style scoped>
-/* header {
-	line-height: 1.5;
-	max-height: 100vh;
-}
-
-.form-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-top: 50px;
-}
-.addRouteForm {
-	background-color: rgb(217, 217, 217);
-	padding: 10px;
-	border: 2px solid black;
-}
-.training-list-container {
-	display: flex;
-	justify-content: center;
-	margin-top: 20px;
-	margin-left: auto;
-	margin-right: auto;
-}
-.training-list {
-	width: 300px;
-	background-color: rgb(217, 217, 217);
-	padding: 10px;
-	border: 2px solid black;
-}
-
-.training-day {
-	background-color: #f5f5f5;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	margin-bottom: 10px;
-	padding: 10px;
-}
-
-.training-day-date {
-	margin-bottom: 0px;
-}
-
-.training-day-date h3 {
-	margin-left: 15px;
-}
-.route-item {
-	position: relative;
-	border-bottom: 1px solid #988989;
-	padding-bottom: 10px;
-	margin-bottom: 10px;
-}
-.delete-btn {
-	background: none;
-	border: none;
-	color: red;
-	font-size: 18px;
-	position: absolute;
-	right: 43%;
-	bottom: 1%;
-	cursor: pointer;
-}
-
-.route-comment {
-	word-wrap: break-word;
-}
-nav {
-	width: 100%;
-	font-size: 12px;
-	text-align: center;
-	margin-top: 2rem;
-} */
-</style>
+<style scoped></style>
