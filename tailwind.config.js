@@ -1,8 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: ['./public/**/*.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+	content: [
+		'./public/**/*.html',
+		'./src/**/*.{vue,js,ts,jsx,tsx}',
+		'./index.html',
+		'./src/**/*.{html,js}',
+	],
 	theme: {
 		extend: {},
 	},
-	plugins: [require('@tailwindcss/forms')], // require('@tailwindcss/forms')
+	plugins: [require('@tailwindcss/forms')],
 };

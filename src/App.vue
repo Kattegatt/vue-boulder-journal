@@ -26,7 +26,6 @@ export default {
 	},
 	computed: {
 		isDisabled() {
-			console.log(!this.inputName || !this.inputDate || !this.inputRating);
 			return !this.inputName || !this.inputDate || !this.inputRating;
 		},
 	},
@@ -89,12 +88,8 @@ export default {
 </script>
 
 <template>
-	<div class="flex justify-center bg-green-400 mb-5">
-		<form
-			action="#"
-			method="post"
-			class="absolute bg-slate-200 px-8 py-5 m-5 shadow-sm rounded-lg"
-		>
+	<div class="flex flex-col items-center justify-center">
+		<form action="#" method="post" class="bg-slate-200 px-8 py-5 m-5 shadow-sm rounded-lg">
 			<div class="mb-3">
 				<label for="date" class="block mb-2 text-sm font-medium text-gray-900">Date:</label>
 				<input
@@ -172,14 +167,18 @@ export default {
 			</div>
 		</form>
 	</div>
-	<div v-if="trainingHistory.length" class="flex bg-black relative justify-center p-10">
+
+	<div
+		v-if="trainingHistory.length"
+		class="flex flex-col items-center justify-center bg-gray-100 p-10"
+	>
 		<div
 			v-for="(day, index) in trainingHistory"
 			:key="index"
-			class="flex bg-gray-700 p-5 justify-items-center"
+			class="bg-gray-400 p-5 justify-items-center"
 		>
 			<div class="date">
-				<h3>{{ day.date }}</h3>
+				<h3 class="text-lg font-medium text-gray-900 mb-2">{{ day.date }}</h3>
 			</div>
 			<div v-for="(route, routeIndex) in day.routes" :key="routeIndex" class="">
 				<p>
@@ -194,5 +193,3 @@ export default {
 		</div>
 	</div>
 </template>
-
-<style scoped></style>
