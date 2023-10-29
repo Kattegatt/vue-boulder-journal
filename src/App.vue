@@ -24,6 +24,12 @@ export default {
 			routes: [],
 		};
 	},
+	computed: {
+		isDisabled() {
+			console.log(!this.inputName || !this.inputDate || !this.inputRating);
+			return !this.inputName || !this.inputDate || !this.inputRating;
+		},
+	},
 	methods: {
 		resetFormFields() {
 			this.inputName = null;
@@ -157,7 +163,7 @@ export default {
 			<div class="mb-1">
 				<button
 					@click="addNewRoute"
-					:disabled="inputName === null || inputRating === null || inputDate === null"
+					:disabled="this.isDisabled"
 					type="submit"
 					class="disabled:bg-gray-400 text-white bg-gray-700 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
 				>
