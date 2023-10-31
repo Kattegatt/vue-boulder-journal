@@ -2,4 +2,10 @@
 
 @tailwind components;
 
+@font-face {
+	font-family: 'KyivRegion-Regular';
+	src: local('KyivRegion-Regular'),
+		url(.public/KyivRegion-Regular/KyivRegion-Regular.ttf) format('ttf');
+}
+
 @tailwind utilities;

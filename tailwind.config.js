@@ -7,7 +7,11 @@ module.exports = {
 		'./src/**/*.{html,js}',
 	],
 	theme: {
-		extend: {},
+		extend: {
+			fontFamily: {
+				sans: ['KyivRegion-Regular'],
+			},
+		},
 	},
 	plugins: [require('@tailwindcss/forms')],
 };

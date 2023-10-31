@@ -62,7 +62,9 @@ export default {
 			this.updateTrainingHistory();
 		},
 
+		// NOT WORKING !!!
 		removeRoute(route) {
+			console.log(route);
 			this.trainingHistory.forEach(d => {
 				d.routes = d.routes.filter(r => {
 					return r !== route;
@@ -167,28 +169,60 @@ export default {
 			</div>
 		</form>
 	</div>
-
+	<form class="flex items-center w-96">
+		<label for="simple-search" class="sr-only">Search</label>
+		<div class="relative w-full">
+			<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"></div>
+			<input
+				type="text"
+				id="simple-search"
+				class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+				placeholder="Search branch name..."
+				required
+			/>
+		</div>
+		<button
+			type="submit"
+			class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+		>
+			<span class="sr-only bg-black">Search</span>
+		</button>
+	</form>
 	<div
 		v-if="trainingHistory.length"
-		class="flex flex-col items-center justify-center bg-gray-100 p-10"
+		class="grid grid-flow-col items-center justify-center bg-gray-100 p-10"
 	>
 		<div
 			v-for="(day, index) in trainingHistory"
 			:key="index"
-			class="bg-gray-400 p-5 justify-items-center"
+			class="bg-gray-400 p-2 justify-items-center m-4 shadow-sm rounded-lg"
 		>
 			<div class="date">
-				<h3 class="text-lg font-medium text-gray-900 mb-2">{{ day.date }}</h3>
+				<h3
+					class="mb-2 text-xl text-center font-bold tracking-tight text-gray-900 dark:text-white"
+				>
+					{{ day.date }}
+				</h3>
 			</div>
-			<div v-for="(route, routeIndex) in day.routes" :key="routeIndex" class="">
-				<p>
-					<strong>{{ route.name }}</strong>
+			<div
+				v-for="(route, routeIndex) in day.routes"
+				:key="routeIndex"
+				class="my-3 p-2 bg-slate-50 rounded-lg w-44"
+			>
+				<p class="font-semibold">
+					{{ route.name }}
 				</p>
 				<p>Rating: {{ route.rating }}</p>
-				<div v-if="route.comment" class="">Comment: {{ route.comment }}</div>
+				<p v-if="route.comment" class="">Comment: {{ route.comment }}</p>
 				<p>Attempts: {{ route.attempts }}</p>
 				<p v-if="route.isPassed">Passed</p>
-				<button @click.stop="removeRoute(route)" type="button" class="">Del</button>
+				<button
+					@click.stop="removeRoute(route)"
+					type="button"
+					class="text-lg font-bold text-red-900 px-2 py-1 rounded-lg hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300"
+				>
+					Del
+				</button>
 			</div>
 		</div>
 	</div>
