@@ -1,94 +1,3 @@
-<script>
-import { RouterLink, RouterView } from 'vue-router';
-import { onMounted } from 'vue';
-import { useRatingsStore } from './stores/routes-ratings-store';
-
-export default {
-	setup() {
-		const ratingsStore = useRatingsStore();
-		const ratingOptions = ratingsStore.ratingOptions;
-
-		return {
-			ratingOptions,
-		};
-	},
-
-	data() {
-		return {
-			inputName: null,
-			inputDate: new Date().toISOString().slice(0, 10),
-			inputRating: null,
-			inputComment: null,
-			inputIsPassed: false,
-			trainingHistory: [],
-			routes: [],
-		};
-	},
-	computed: {
-		isDisabled() {
-			return !this.inputName || !this.inputDate || !this.inputRating;
-		},
-	},
-	methods: {
-		resetFormFields() {
-			this.inputName = null;
-			(this.inputDate = new Date().toISOString().slice(0, 10)), (this.inputRating = null);
-			this.inputComment = null;
-			this.inputIsPassed = false;
-		},
-		addNewRoute() {
-			const route = {
-				date: this.inputDate,
-				name: this.inputName,
-				rating: this.inputRating,
-				attempts: 1,
-				isPassed: this.inputIsPassed,
-				comment: this.inputComment,
-			};
-
-			const existingRoute = this.routes.find(
-				r => r.date === route.date && r.name === route.name && r.rating === route.rating
-			);
-			console.log(`Exist route - ${existingRoute}`);
-
-			if (existingRoute) {
-				existingRoute.attempts += 1;
-				existingRoute.isPassed = route.isPassed;
-			} else {
-				this.routes.push(route);
-			}
-
-			this.resetFormFields();
-			this.updateTrainingHistory();
-		},
-
-		// NOT WORKING !!!
-		removeRoute(route) {
-			console.log(route);
-			this.trainingHistory.forEach(d => {
-				d.routes = d.routes.filter(r => {
-					return r !== route;
-				});
-			});
-			this.trainingHistory = this.trainingHistory.filter(d => {
-				return d.routes.length;
-			});
-		},
-		updateTrainingHistory() {
-			let routes = this.routes;
-			let uniqueDates = [...new Set(routes.map(r => r.date))];
-
-			let trainingHistory = uniqueDates.map(date => {
-				let filteredRoutes = routes.filter(r => r.date === date);
-				return { date: date, routes: filteredRoutes };
-			});
-
-			this.trainingHistory = trainingHistory;
-		},
-	},
-};
-</script>
-
 <template>
 	<div class="flex flex-col items-center justify-center">
 		<form action="#" method="post" class="bg-slate-200 px-8 py-5 m-5 shadow-sm rounded-lg">
@@ -176,7 +85,7 @@ export default {
 			<input
 				type="text"
 				id="simple-search"
-				class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+				class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-gray-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 				placeholder="Search branch name..."
 				required
 			/>
@@ -217,9 +126,9 @@ export default {
 				<p>Attempts: {{ route.attempts }}</p>
 				<p v-if="route.isPassed">Passed</p>
 				<button
-					@click.stop="removeRoute(route)"
+					@click="removeRoute(route)"
 					type="button"
-					class="text-lg font-bold text-red-900 px-2 py-1 rounded-lg hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300"
+					class="text-lg font-bold text-red-900 px-2 py-1 rounded-lg hover:bg-slate-400 focus:ring-3"
 				>
 					Del
 				</button>
@@ -227,3 +136,90 @@ export default {
 		</div>
 	</div>
 </template>
+
+<script>
+import { RouterLink, RouterView } from 'vue-router';
+import { onMounted } from 'vue';
+import { useRatingsStore } from './stores/routes-ratings-store';
+
+export default {
+	setup() {
+		const ratingsStore = useRatingsStore();
+		const ratingOptions = ratingsStore.ratingOptions;
+
+		return {
+			ratingOptions,
+		};
+	},
+
+	data() {
+		return {
+			inputName: null,
+			inputDate: new Date().toISOString().slice(0, 10),
+			inputRating: null,
+			inputComment: null,
+			inputIsPassed: false,
+			trainingHistory: [],
+			routes: [],
+		};
+	},
+	computed: {
+		isDisabled() {
+			return !this.inputName || !this.inputDate || !this.inputRating;
+		},
+	},
+	methods: {
+		resetFormFields() {
+			this.inputName = null;
+			(this.inputDate = new Date().toISOString().slice(0, 10)), (this.inputRating = null);
+			this.inputComment = null;
+			this.inputIsPassed = false;
+		},
+		addNewRoute() {
+			const route = {
+				date: this.inputDate,
+				name: this.inputName,
+				rating: this.inputRating,
+				attempts: 1,
+				isPassed: this.inputIsPassed,
+				comment: this.inputComment,
+			};
+
+			const existingRoute = this.routes.find(
+				r => r.date === route.date && r.name === route.name && r.rating === route.rating
+			);
+			console.log(`Exist route - ${existingRoute}`);
+
+			if (existingRoute) {
+				existingRoute.attempts += 1;
+				existingRoute.isPassed = route.isPassed;
+			} else {
+				this.routes.push(route);
+			}
+
+			this.resetFormFields();
+			this.updateTrainingHistory();
+		},
+
+		// NOT WORKING !!!
+		removeRoute(route) {
+			this.routes = this.routes.filter(r => {
+				r !== route;
+			});
+
+			this.updateTrainingHistory();
+		},
+		updateTrainingHistory() {
+			let routes = this.routes;
+			let uniqueDates = [...new Set(routes.map(r => r.date))];
+
+			let trainingHistory = uniqueDates.map(date => {
+				let filteredRoutes = routes.filter(r => r.date === date);
+				return { date: date, routes: filteredRoutes };
+			});
+
+			this.trainingHistory = trainingHistory;
+		},
+	},
+};
+</script>
