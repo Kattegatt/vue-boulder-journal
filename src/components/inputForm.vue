@@ -67,7 +67,7 @@
 		</div>
 		<div class="mb-1">
 			<button
-				@click="addNewRoute"
+				@click="formRoute"
 				:disabled="this.isAddBtnDisabled"
 				type="submit"
 				class="text-white bg-gray-700 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
@@ -104,7 +104,7 @@ export default {
 		};
 	},
 	methods: {
-		addNewRoute() {
+		formRoute() {
 			const route = {
 				date: this.inputDate,
 				name: this.inputName,
@@ -114,7 +114,7 @@ export default {
 				comment: this.inputComment,
 			};
 
-			this.$emit('add-route', route);
+			this.$emit('form-route', route);
 
 			this.resetFormFields();
 		},

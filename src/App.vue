@@ -1,26 +1,8 @@
 <template>
 	<div class="flex flex-col items-center justify-center">
-		<input-form @add-route="addNewRoute" />
+		<input-form @form-route="addNewRoute" />
 	</div>
-	<form class="flex items-center w-96">
-		<label for="simple-search" class="sr-only">Search</label>
-		<div class="relative w-full">
-			<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"></div>
-			<input
-				type="text"
-				id="simple-search"
-				class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-gray-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-				placeholder="Search branch name..."
-				required
-			/>
-		</div>
-		<button
-			type="submit"
-			class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-		>
-			<span class="sr-only bg-black">Search</span>
-		</button>
-	</form>
+	<search-bar />
 	<div
 		v-if="trainingHistory.length"
 		class="grid grid-flow-col items-center justify-center bg-gray-100 p-10"
@@ -65,6 +47,8 @@
 import { RouterLink, RouterView } from 'vue-router';
 import { onMounted } from 'vue';
 import inputForm from './components/inputForm.vue';
+import searchBar from './components/searchBar.vue';
+import trainingHistory from './components/trainingHistory.vue';
 
 export default {
 	data() {
@@ -80,6 +64,8 @@ export default {
 	},
 	components: {
 		inputForm,
+		searchBar,
+		trainingHistory,
 	},
 	computed: {},
 	methods: {
@@ -87,7 +73,6 @@ export default {
 			const existingRoute = this.routes.find(
 				r => r.date === route.date && r.name === route.name && r.rating === route.rating
 			);
-			console.log(`Exist route - ${existingRoute}`);
 
 			if (existingRoute) {
 				existingRoute.attempts += 1;
@@ -98,7 +83,6 @@ export default {
 
 			this.updateTrainingHistory();
 		},
-
 		removeRoute(route) {
 			this.routes = this.routes.filter(r => {
 				r !== route;
@@ -118,5 +102,8 @@ export default {
 			this.trainingHistory = trainingHistory;
 		},
 	},
+	// watch: {
+	// 	routes() {},
+	// },
 };
 </script>
