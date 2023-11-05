@@ -1,10 +1,10 @@
 <template>
 	<div
-		v-if="trainingHistory.length"
+		v-if="trainingDaysList.length"
 		class="grid grid-flow-col items-center justify-center bg-gray-100 p-10"
 	>
 		<div
-			v-for="(day, index) in trainingHistory"
+			v-for="(day, index) in trainingDaysList"
 			:key="index"
 			class="bg-gray-400 p-2 justify-items-center m-4 shadow-sm rounded-lg"
 		>
@@ -28,7 +28,7 @@
 				<p>Attempts: {{ route.attempts }}</p>
 				<p v-if="route.isPassed">Passed</p>
 				<button
-					@click="removeRoute(route)"
+					@click="$emit('deleteBtnPressed', route)"
 					type="button"
 					class="text-lg font-bold text-red-900 px-2 py-1 rounded-lg hover:bg-slate-400 focus:ring-3"
 				>
@@ -41,8 +41,8 @@
 
 <script>
 export default {
-	props: {},
-	data() {},
-	methods: {},
+	props: {
+		trainingDaysList: Array,
+	},
 };
 </script>
