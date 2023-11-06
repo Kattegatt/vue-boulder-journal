@@ -6,14 +6,10 @@
 		<div
 			v-for="(day, index) in trainingDaysList"
 			:key="index"
-			class="bg-gray-400 p-2 justify-items-center m-4 shadow-sm rounded-lg"
+			class="bg-slate-300 p-2 justify-items-center m-4 shadow-sm rounded-lg"
 		>
-			<div class="date">
-				<h3
-					class="mb-2 text-xl text-center font-bold tracking-tight text-gray-900 dark:text-white"
-				>
-					{{ day.date }}
-				</h3>
+			<div class="mb-2 text-xl text-center font-bold tracking-tight text-gray-900">
+				{{ day.date }}
 			</div>
 			<div
 				v-for="(route, routeIndex) in day.routes"

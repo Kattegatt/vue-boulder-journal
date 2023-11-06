@@ -3,10 +3,11 @@
 		<input-form @form-route="addNewRoute" />
 	</div>
 	<search-bar @activeInput="updateSearchInput" />
-	<div class="flex">
+	<div class="flex my-2">
 		<button
 			@click="prevPage"
 			class="flex items-center justify-center mx-2 px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700"
+			:class="{ 'opacity-30': this.currentPage === 1 }"
 		>
 			Previous
 		</button>
@@ -14,6 +15,7 @@
 		<button
 			@click="nextPage"
 			class="flex items-center justify-center px-3 h-8 ml-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700"
+			:class="{ 'opacity-30': isLastPage }"
 		>
 			Next
 		</button>
@@ -56,7 +58,7 @@ export default {
 				.slice(start, end);
 		},
 		isLastPage() {
-			return (this.currentPage - 1) * DAYS_ON_PAGE > this.paginatedTrainingDaysList.length;
+			return DAYS_ON_PAGE * this.currentPage >= this.trainingDaysList.length;
 		},
 	},
 	methods: {
