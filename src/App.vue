@@ -5,18 +5,23 @@
 	<search-bar @activeInput="updateSearchInput" />
 	<div class="flex">
 		<button
+			@click="prevPage"
 			class="flex items-center justify-center mx-2 px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700"
 		>
 			Previous
 		</button>
 
 		<button
+			@click="nextPage"
 			class="flex items-center justify-center px-3 h-8 ml-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700"
 		>
 			Next
 		</button>
 	</div>
-	<training-history :training-days-list="trainingDaysList" @deleteBtnPressed="removeRoute" />
+	<training-history
+		:training-days-list="paginatedTrainingDaysList"
+		@deleteBtnPressed="removeRoute"
+	/>
 </template>
 
 <script>
@@ -25,6 +30,8 @@ import { onMounted } from 'vue';
 import inputForm from './components/inputForm.vue';
 import searchBar from './components/searchBar.vue';
 import trainingHistory from './components/trainingHistory.vue';
+
+const DAYS_ON_PAGE = 3;
 
 export default {
 	data() {
@@ -41,11 +48,24 @@ export default {
 		trainingHistory,
 	},
 	computed: {
-		paginatedTrainingDaysList() {},
-		calculatedPage() {},
-		lastPage() {},
+		paginatedTrainingDaysList() {
+			const start = DAYS_ON_PAGE * (this.currentPage - 1);
+			const end = DAYS_ON_PAGE * this.currentPage;
+			return this.trainingDaysList
+				.filter(day => day.date.includes(this.searchInput))
+				.slice(start, end);
+		},
+		isLastPage() {
+			return (this.currentPage - 1) * DAYS_ON_PAGE > this.paginatedTrainingDaysList.length;
+		},
 	},
 	methods: {
+		nextPage() {
+			if (!this.isLastPage) this.currentPage += 1;
+		},
+		prevPage() {
+			if (this.currentPage > 1) this.currentPage -= 1;
+		},
 		updateSearchInput(input) {
 			this.searchInput = input;
 		},

@@ -82,6 +82,7 @@
 	</form>
 </template>
 <script>
+import { format } from 'date-fns';
 import { useRatingsStore } from '/src/stores/routes-ratings-store';
 
 export default {
@@ -97,7 +98,7 @@ export default {
 	data() {
 		return {
 			inputName: null,
-			inputDate: new Date().toISOString().slice(0, 10),
+			inputDate: format(new Date(), 'yyyy-MM-dd'),
 			inputRating: null,
 			inputComment: null,
 			inputIsPassed: false,
