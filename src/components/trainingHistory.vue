@@ -1,8 +1,5 @@
 <template>
-	<div
-		v-if="trainingDaysList.length"
-		class="grid grid-flow-col items-center justify-center bg-gray-100 p-10"
-	>
+	<div v-if="trainingDaysList.length" class="grid grid-flow-col items-center justify-center p-10">
 		<div
 			v-for="(day, index) in trainingDaysList"
 			:key="index"

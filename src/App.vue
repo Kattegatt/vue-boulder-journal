@@ -33,7 +33,7 @@ import inputForm from './components/inputForm.vue';
 import searchBar from './components/searchBar.vue';
 import trainingHistory from './components/trainingHistory.vue';
 
-const DAYS_ON_PAGE = 3;
+const DAYS_ON_PAGE = 1;
 
 export default {
 	data() {
@@ -70,7 +70,12 @@ export default {
 		},
 		updateSearchInput(input) {
 			this.searchInput = input;
+			this.currentPage = 1;
 		},
+		// setPage1() {
+		// 	this.currentPage = 1;
+		// },
+
 		addNewRoute(route) {
 			const existingRoute = this.routes.find(
 				r => r.date === route.date && r.name === route.name && r.rating === route.rating
