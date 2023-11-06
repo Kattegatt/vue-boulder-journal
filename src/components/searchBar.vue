@@ -31,6 +31,7 @@ export default {
 	methods: {
 		emptySearch() {
 			this.searchInput = '';
+			this.emitInput();
 		},
 		emitInput() {
 			this.$emit('activeInput', this.searchInput);
