@@ -49,7 +49,18 @@ export default {
 		searchBar,
 		trainingHistory,
 	},
+	created() {
+		const routesData = localStorage.getItem('routesStorage');
+
+		if (routesData) this.routes = JSON.parse(routesData);
+	},
+
 	computed: {
+		rotesComputed() {
+			// const routesData = localStorage.getItem('routesStorage');
+			// if (routesData) return JSON.parse(routesData);
+			// return [];
+		},
 		paginatedTrainingDaysList() {
 			const start = DAYS_ON_PAGE * (this.currentPage - 1);
 			const end = DAYS_ON_PAGE * this.currentPage;
@@ -72,9 +83,6 @@ export default {
 			this.searchInput = input;
 			this.currentPage = 1;
 		},
-		// setPage1() {
-		// 	this.currentPage = 1;
-		// },
 
 		addNewRoute(route) {
 			const existingRoute = this.routes.find(
@@ -85,13 +93,19 @@ export default {
 				existingRoute.attempts += 1;
 				existingRoute.isPassed = route.isPassed;
 			} else {
+				localStorage.setItem;
 				this.routes.push(route);
 			}
+			this.updateStorage(this.routes);
 		},
 		removeRoute(route) {
 			this.routes = this.routes.filter(r => {
 				return r !== route;
 			});
+			this.updateStorage(this.routes);
+		},
+		updateStorage(routes) {
+			localStorage.setItem('routesStorage', JSON.stringify(routes));
 		},
 	},
 	watch: {
@@ -109,6 +123,7 @@ export default {
 					return aDate - bDate;
 				});
 				this.trainingDaysList = trainingDaysList;
+				// localStorage.setItem('trainingDaysListStorage', JSON.stringify(trainingDaysList));
 			},
 			deep: true,
 		},
