@@ -1,5 +1,5 @@
 <template>
-	<navigationBlock></navigationBlock>
+	<navigationBlock :skip-login="skipLogin"></navigationBlock>
 	<div class="flex flex-col items-center justify-center">
 		<loginForm @login-data="validateLogin"></loginForm>
 	</div>
@@ -11,11 +11,16 @@ import loginForm from '../components/LoginForm.vue';
 import authService from '../services/authService';
 
 export default {
-	// data() {},
+	data() {
+		return {
+			skipLogin: false,
+		};
+	},
 	components: {
 		navigationBlock,
 		loginForm,
 	},
+
 	methods: {
 		validateLogin(loginCreds) {
 			console.dir(`test data - ${loginCreds.email}`);
@@ -35,6 +40,7 @@ export default {
 				});
 		},
 	},
+	watch: {},
 };
 const testData = [
 	{

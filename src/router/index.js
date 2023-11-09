@@ -18,4 +18,16 @@ const router = createRouter({
 	],
 });
 
+router.beforeEach((to, from, next) => {
+	const isLogged = localStorage.getItem('bjKnownUser');
+
+	if (to.path !== '/' && !isLogged) {
+		next('/');
+	} else if (to.path === '/' && isLogged) {
+		next('/home');
+	} else {
+		next();
+	}
+});
+
 export default router;
