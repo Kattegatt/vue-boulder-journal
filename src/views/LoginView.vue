@@ -1,9 +1,49 @@
 <template>
-	<div class="my-10 flex justify-center">Im Login View</div>
-	<div class="flex justify-center">
-		<br />
-		<a href="/">Home View</a>
+	<navigationBlock></navigationBlock>
+	<div class="flex flex-col items-center justify-center">
+		<loginForm @login-data="validateLogin"></loginForm>
 	</div>
 </template>
 
-<script></script>
+<script>
+import navigationBlock from '../components/NavigationBlock.vue';
+import loginForm from '../components/LoginForm.vue';
+import authService from '../services/authService';
+
+export default {
+	// data() {},
+	components: {
+		navigationBlock,
+		loginForm,
+	},
+	methods: {
+		validateLogin(loginCreds) {
+			console.dir(`test data - ${loginCreds.email}`);
+
+			authService
+				.login(loginCreds, testData)
+				.then(response => {
+					if (response === 'remember user') {
+						console.log('successful login with remembering');
+						localStorage.setItem('bjKnownUser', true);
+					} else {
+						console.log('successful login');
+					}
+				})
+				.catch(reject => {
+					alert(reject);
+				});
+		},
+	},
+};
+const testData = [
+	{
+		email: 'asd@asd',
+		password: '123',
+	},
+	{
+		email: '1@2',
+		password: '5432',
+	},
+];
+</script>

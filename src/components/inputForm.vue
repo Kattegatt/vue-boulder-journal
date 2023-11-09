@@ -68,13 +68,10 @@
 		</div>
 		<div class="mb-1">
 			<button
-				@click="formRoute"
+				@click="emitFormRoute"
 				:disabled="this.isAddBtnDisabled"
 				type="submit"
-				class="text-white bg-gray-700 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-				:class="{
-					'opacity-10': this.isAddBtnDisabled,
-				}"
+				class="text-white bg-blue-700 disabled:opacity-10 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
 			>
 				Add
 			</button>
@@ -106,7 +103,7 @@ export default {
 	},
 
 	methods: {
-		formRoute() {
+		emitFormRoute() {
 			const route = {
 				date: this.inputDate,
 				name: this.inputName,
@@ -115,11 +112,10 @@ export default {
 				isPassed: this.inputIsPassed,
 				comment: this.inputComment,
 			};
-
 			this.$emit('form-route', route);
-
 			this.resetFormFields();
 		},
+
 		resetFormFields() {
 			this.inputName = null;
 			this.inputDate = new Date().toISOString().slice(0, 10);

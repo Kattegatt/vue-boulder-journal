@@ -1,7 +1,6 @@
 <template>
-	<div class="m-2 flex justify-center">
-		<a href="/login">To Login Page</a>
-	</div>
+	<navigationBlock></navigationBlock>
+
 	<div class="flex flex-col items-center justify-center">
 		<input-form @form-route="addNewRoute" />
 	</div>
@@ -30,11 +29,12 @@
 </template>
 
 <script>
-import inputForm from '../components/inputForm.vue';
+import inputForm from '../components/InputForm.vue';
 import searchBar from '../components/searchBar.vue';
 import trainingHistory from '../components/trainingHistory.vue';
+import navigationBlock from '../components/NavigationBlock.vue';
 
-const DAYS_ON_PAGE = 1;
+const DAYS_ON_PAGE = 3;
 
 export default {
 	data() {
@@ -49,6 +49,7 @@ export default {
 		inputForm,
 		searchBar,
 		trainingHistory,
+		navigationBlock,
 	},
 	created() {
 		const routesData = localStorage.getItem('routesStorage');
