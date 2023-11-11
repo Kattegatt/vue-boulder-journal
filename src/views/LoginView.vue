@@ -20,11 +20,7 @@ export default {
 		navigationBlock,
 		loginForm,
 	},
-	computed: {
-		checkLogged() {
-			return localStorage.getItem('bjKnownUser');
-		},
-	},
+
 	methods: {
 		checkLogged() {
 			return localStorage.getItem('bjKnownUser');
@@ -38,8 +34,10 @@ export default {
 					if (response === 'remember user') {
 						console.log('successful login with remembering');
 						localStorage.setItem('bjKnownUser', true);
+						localStorage.setItem('loggedUser', true);
 					} else {
 						console.log('successful login');
+						localStorage.setItem('loggedUser', true);
 					}
 				})
 				.catch(reject => {

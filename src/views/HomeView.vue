@@ -58,11 +58,6 @@ export default {
 	},
 
 	computed: {
-		rotesComputed() {
-			// const routesData = localStorage.getItem('routesStorage');
-			// if (routesData) return JSON.parse(routesData);
-			// return [];
-		},
 		paginatedTrainingDaysList() {
 			const start = DAYS_ON_PAGE * (this.currentPage - 1);
 			const end = DAYS_ON_PAGE * this.currentPage;

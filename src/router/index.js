@@ -19,11 +19,12 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-	const isLogged = localStorage.getItem('bjKnownUser');
+	const isRemembered = localStorage.getItem('bjKnownUser');
+	const isLogged = localStorage.getItem('loggedUser');
 
-	if (to.path !== '/' && !isLogged) {
+	if (to.path !== '/' && !isRemembered && !isLogged) {
 		next('/');
-	} else if (to.path === '/' && isLogged) {
+	} else if (to.path === '/' && isRemembered && isLogged) {
 		next('/home');
 	} else {
 		next();

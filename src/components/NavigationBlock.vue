@@ -8,6 +8,7 @@
 				>Login</a
 			>
 			<a
+				v-if="!skipLogin"
 				href="/home"
 				class="text-white p-2 mx-2 bg-gray-700 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-2 py-2 text-center"
 				>Home</a
@@ -15,6 +16,9 @@
 		</div>
 		<div class="flex mr-5">
 			<a
+				@click="logUserOff"
+				v-if="!skipLogin"
+				href="/"
 				class="text-white p-2 mx-2 bg-gray-700 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center"
 				>Log Off</a
 			>
@@ -27,14 +31,10 @@ export default {
 	props: {
 		skipLogin: Boolean,
 	},
-
-	// mounted() {
-	// 	const isLogged = localStorage.getItem('bjKnownUser');
-	// 	console.log('isLogged', isLogged);
-
-	// 	if (isLogged) {
-	// 		this.skipLogin = true;
-	// 	}
-	// },
+	methods: {
+		logUserOff() {
+			localStorage.setItem('loggedUser', false);
+		},
+	},
 };
 </script>
