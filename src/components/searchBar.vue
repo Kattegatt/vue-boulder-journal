@@ -33,9 +33,7 @@ export default {
 			this.searchInput = '';
 			this.emitInput();
 		},
-		// 	emitInput() {
-		// 		this.$emit('activeInput', this.searchInput);
-		// 	},
+
 	},
 	watch: {
 		searchInput() {
