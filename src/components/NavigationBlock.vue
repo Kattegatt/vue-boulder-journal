@@ -24,18 +24,17 @@
 
 <script>
 export default {
-	data() {
-		return {
-			skipLogin: false,
-		};
+	props: {
+		skipLogin: Boolean,
 	},
-	mounted() {
-		const isLogged = localStorage.getItem('bjKnownUser');
-		console.log('isLogged', isLogged);
 
-		if (isLogged) {
-			this.skipLogin = true;
-		}
-	},
+	// mounted() {
+	// 	const isLogged = localStorage.getItem('bjKnownUser');
+	// 	console.log('isLogged', isLogged);
+
+	// 	if (isLogged) {
+	// 		this.skipLogin = true;
+	// 	}
+	// },
 };
 </script>

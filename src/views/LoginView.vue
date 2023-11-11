@@ -13,15 +13,22 @@ import authService from '../services/authService';
 export default {
 	data() {
 		return {
-			skipLogin: false,
+			skipLogin: this.checkLogged,
 		};
 	},
 	components: {
 		navigationBlock,
 		loginForm,
 	},
-
+	computed: {
+		checkLogged() {
+			return localStorage.getItem('bjKnownUser');
+		},
+	},
 	methods: {
+		checkLogged() {
+			return localStorage.getItem('bjKnownUser');
+		},
 		validateLogin(loginCreds) {
 			console.dir(`test data - ${loginCreds.email}`);
 

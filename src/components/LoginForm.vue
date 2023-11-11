@@ -49,10 +49,6 @@
 </template>
 
 <script>
-// Зупинити сабміт при нажиманні конопки
-// Протестити еміт
-//
-
 export default {
 	data() {
 		return {
