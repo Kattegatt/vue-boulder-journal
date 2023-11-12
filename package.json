@@ -3,7 +3,8 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"start": "node src/db/main.js",
+		"start": "node src/server/main.js",
+		"nodemonStart": "nodemon src/server/main.js",
 		"build": "vite build",
 		"test:unit": "vitest",
 		"test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",

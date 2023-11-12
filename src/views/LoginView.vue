@@ -35,9 +35,11 @@ export default {
 						console.log('successful login with remembering');
 						localStorage.setItem('bjKnownUser', true);
 						localStorage.setItem('loggedUser', true);
+						this.$router.push({ name: 'home' });
 					} else {
 						console.log('successful login');
 						localStorage.setItem('loggedUser', true);
+						this.$router.push({ name: 'home' });
 					}
 				})
 				.catch(reject => {
