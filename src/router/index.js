@@ -10,6 +10,11 @@ const router = createRouter({
 			name: 'login',
 			component: LoginView,
 		},
+		// {
+		// 	path: '/register',
+		// 	name: 'register',
+		// 	component: RegisterView,
+		// },
 		{
 			path: '/home',
 			name: 'home',
@@ -18,17 +23,17 @@ const router = createRouter({
 	],
 });
 
-router.beforeEach((to, from, next) => {
-	const isRemembered = localStorage.getItem('bjKnownUser');
-	const isLogged = localStorage.getItem('loggedUser');
+// router.beforeEach((to, from, next) => {
+// 	const isRemembered = localStorage.getItem('bjKnownUser');
+// 	const isLogged = localStorage.getItem('loggedUser');
 
-	if (to.path !== '/' && !isRemembered && !isLogged) {
-		next('/');
-	} else if (to.path === '/' && isRemembered && isLogged) {
-		next('/home');
-	} else {
-		next();
-	}
-});
+// 	if (to.path !== '/' && !isRemembered && !isLogged) {
+// 		next('/');
+// 	} else if (to.path === '/' && isRemembered && isLogged) {
+// 		next('/home');
+// 	} else {
+// 		next();
+// 	}
+// });
 
 export default router;

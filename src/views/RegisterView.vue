@@ -1,8 +1,5 @@
-<template>
-	<navigationBlock
-		@register-user="validateRegistration"
-		:skip-login="skipLogin"
-	></navigationBlock>
+<!-- <template>
+	<navigationBlock :@register="validateRegistration"></navigationBlock>
 	<div class="flex flex-col items-center justify-center">
 		<loginForm @login-data="validateLogin"></loginForm>
 	</div>
@@ -10,13 +7,13 @@
 
 <script>
 import navigationBlock from '../components/NavigationBlock.vue';
-import loginForm from '../components/LoginForm.vue';
+
 import authService from '../services/authService';
 
 export default {
 	data() {
 		return {
-			skipLogin: this.checkLogged(),
+			skipLogin: this.checkLogged,
 		};
 	},
 	components: {
@@ -28,6 +25,16 @@ export default {
 		checkLogged() {
 			return localStorage.getItem('bjKnownUser');
 		},
+		// validateRegistration(registrationCreds) {
+		// 	authService
+		// 		.registration(registrationCreds)
+		// 		.then(responseData => {
+		// 			console.log({ successfulResponse: responseData });
+		// 		})
+		// 		.catch(error => {
+		// 			console.log({ error: error });
+		// 		});
+		// },
 		validateLogin(loginCreds) {
 			console.dir(`test data - ${loginCreds.email}`);
 
@@ -49,27 +56,6 @@ export default {
 					alert(reject);
 				});
 		},
-		validateRegistration(registrationCreds) {
-			authService
-				.registration(registrationCreds)
-				.then(responseData => {
-					console.log({ successfulResponse: responseData });
-				})
-				.catch(error => {
-					console.log({ error: error });
-				});
-		},
 	},
-	watch: {},
 };
-const testData = [
-	{
-		email: 'asd@asd',
-		password: '123',
-	},
-	{
-		email: '1@2',
-		password: '5432',
-	},
-];
-</script>
+</script> -->

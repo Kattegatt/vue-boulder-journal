@@ -3,6 +3,14 @@ const db = require('../db');
 class UserController {
 	async createUser(req, res) {
 		const { firstName, lastName, email, passwordHash } = req.body;
+
+		const existingUser = await db.query('SELECT * FROM public.user WHERE email = $1', [email]);
+
+		res.json(existingUser);
+		if (existingUser.rowCount) {
+			return res.status(400).json({ error: 'User already existing' });
+		}
+
 		const newUser = await db.query(
 			`INSERT INTO public.user (first_name, last_name, email, password_hash) values ($1, $2, $3, $4) RETURNING *`,
 			[firstName, lastName, email, passwordHash]
