@@ -25,10 +25,10 @@ export default {
 		});
 	},
 
-	registration(registrationCreds) {
+	registration: async function (registrationCreds) {
 		const { firstName, lastName, email, password } = registrationCreds;
 
-		const passwordHash = hashPassword(password);
+		const passwordHash = await hashPassword(password);
 
 		return new Promise((resolve, reject) => {
 			axios
