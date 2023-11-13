@@ -6,7 +6,6 @@ class UserController {
 
 		const existingUser = await db.query('SELECT * FROM public.user WHERE email = $1', [email]);
 
-		res.json(existingUser);
 		if (existingUser.rowCount) {
 			return res.status(400).json({ error: 'User already existing' });
 		}

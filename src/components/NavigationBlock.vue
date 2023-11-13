@@ -44,7 +44,7 @@ export default {
 			const registrationCreds = {
 				firstName: 'neame',
 				lastName: 'lasnm',
-				email: 'email@e123sdsad',
+				email: 'email@3',
 				password: 'PasssWsseord',
 			};
 

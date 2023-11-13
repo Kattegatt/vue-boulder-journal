@@ -28,7 +28,7 @@ export default {
 	registration(registrationCreds) {
 		const { firstName, lastName, email, password } = registrationCreds;
 
-		const passwordHash = password;
+		const passwordHash = hashPassword(password);
 
 		return new Promise((resolve, reject) => {
 			axios
