@@ -16,7 +16,7 @@ import authService from '../services/authService';
 export default {
 	data() {
 		return {
-			skipLogin: this.checkLogged(),
+			// skipLogin: this.checkLogged(),
 		};
 	},
 	components: {

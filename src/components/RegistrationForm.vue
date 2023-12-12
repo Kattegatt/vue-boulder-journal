@@ -3,6 +3,32 @@
 		<div class="py-2">Registration</div>
 		<div class="mb-6">
 			<label for="email" class="block mb-2 text-sm font-medium text-gray-900"
+				>Your name</label
+			>
+			<input
+				v-model="firstName"
+				type="email"
+				id="firstName"
+				class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+				placeholder="Cool"
+				required
+			/>
+		</div>
+		<div class="mb-6">
+			<label for="email" class="block mb-2 text-sm font-medium text-gray-900"
+				>Your surname</label
+			>
+			<input
+				v-model="lastName"
+				type="email"
+				id="lastName"
+				class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+				placeholder="Guy"
+				required
+			/>
+		</div>
+		<div class="mb-6">
+			<label for="email" class="block mb-2 text-sm font-medium text-gray-900"
 				>Your email</label
 			>
 			<input
@@ -10,7 +36,7 @@
 				type="email"
 				id="email"
 				class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-				placeholder="name@gmail.com"
+				placeholder="coolguy@gmail.com"
 				required
 			/>
 		</div>
@@ -39,7 +65,7 @@
 			<label for="remember" class="ml-2 text-sm font-medium text-gray-900">Remember me</label>
 		</div>
 		<button
-			@click="emitLogin"
+			@click="emitRegistration"
 			:disabled="this.isSubmitBtnDisabled"
 			type="submit"
 			class="text-white bg-blue-700 disabled:opacity-10 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
@@ -55,24 +81,30 @@ export default {
 		return {
 			email: '',
 			password: '',
+			firstName: '',
+			lastName: '',
 			remember: false,
 		};
 	},
 	methods: {
-		emitLogin(event) {
+		emitRegistration(event) {
 			event.preventDefault();
 
-			const loginCreds = {
+			const registrationCreds = {
+				firstName: this.firstName,
+				lastName: this.lastName,
 				email: this.email,
 				password: this.password,
 				remember: this.remember,
 			};
 
-			this.$emit('login-data', loginCreds);
+			this.$emit('registration-data', registrationCreds);
 
 			this.resetFields();
 		},
 		resetFields() {
+			this.firstName = '';
+			this.lastName = '';
 			this.email = '';
 			this.password = '';
 			this.remember = false;

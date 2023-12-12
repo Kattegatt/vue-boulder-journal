@@ -1,7 +1,7 @@
 <template>
-	<navigationBlock :@register="validateRegistration"></navigationBlock>
+	<navigationBlock></navigationBlock>
 	<div class="flex flex-col items-center justify-center">
-		<registrationForm></registrationForm>
+		<registrationForm @registration-data="validateRegistration"></registrationForm>
 	</div>
 </template>
 
@@ -14,7 +14,7 @@ import authService from '../services/authService';
 export default {
 	data() {
 		return {
-			skipLogin: this.checkLogged,
+			// skipLogin: this.checkLogged,
 		};
 	},
 	components: {
@@ -23,40 +23,39 @@ export default {
 	},
 
 	methods: {
-		checkLogged() {
-			return localStorage.getItem('bjKnownUser');
-		},
-		// validateRegistration(registrationCreds) {
-		// 	authService
-		// 		.registration(registrationCreds)
-		// 		.then(responseData => {
-		// 			console.log({ successfulResponse: responseData });
-		// 		})
-		// 		.catch(error => {
-		// 			console.log({ error: error });
-		// 		});
+		// checkLogged() {
+		// 	return localStorage.getItem('bjKnownUser');
 		// },
-		validateLogin(loginCreds) {
-			console.dir(`test data - ${loginCreds.email}`);
-
+		validateRegistration(registrationCreds) {
 			authService
-				.login(loginCreds, testData)
-				.then(response => {
-					if (response === 'remember user') {
-						console.log('successful login with remembering');
-						localStorage.setItem('bjKnownUser', true);
-						localStorage.setItem('loggedUser', true);
-						this.$router.push({ name: 'home' });
-					} else {
-						console.log('successful login');
-						localStorage.setItem('loggedUser', true);
-						this.$router.push({ name: 'home' });
-					}
+				.registration(registrationCreds)
+				.then(responseData => {
+					console.log({ successfulResponse: responseData });
 				})
-				.catch(reject => {
-					alert(reject);
+				.catch(error => {
+					console.log({ error: error });
 				});
 		},
+		// validateLogin(loginCreds) {
+		// 	console.dir(`test data - ${loginCreds.email}`);
+		// 	authService
+		// 		.login(loginCreds, testData)
+		// 		.then(response => {
+		// 			if (response === 'remember user') {
+		// 				console.log('successful login with remembering');
+		// 				localStorage.setItem('bjKnownUser', true);
+		// 				localStorage.setItem('loggedUser', true);
+		// 				this.$router.push({ name: 'home' });
+		// 			} else {
+		// 				console.log('successful login');
+		// 				localStorage.setItem('loggedUser', true);
+		// 				this.$router.push({ name: 'home' });
+		// 			}
+		// 		})
+		// 		.catch(reject => {
+		// 			alert(reject);
+		// 		});
+		// },
 	},
 };
 </script>
