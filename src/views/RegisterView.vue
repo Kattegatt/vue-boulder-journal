@@ -1,12 +1,13 @@
-<!-- <template>
+<template>
 	<navigationBlock :@register="validateRegistration"></navigationBlock>
 	<div class="flex flex-col items-center justify-center">
-		<loginForm @login-data="validateLogin"></loginForm>
+		<registrationForm></registrationForm>
 	</div>
 </template>
 
 <script>
 import navigationBlock from '../components/NavigationBlock.vue';
+import registrationForm from '../components/RegistrationForm.vue';
 
 import authService from '../services/authService';
 
@@ -18,7 +19,7 @@ export default {
 	},
 	components: {
 		navigationBlock,
-		loginForm,
+		registrationForm,
 	},
 
 	methods: {
@@ -58,4 +59,4 @@ export default {
 		},
 	},
 };
-</script> -->
+</script>

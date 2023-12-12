@@ -29,6 +29,7 @@ export default {
 		const { firstName, lastName, email, password } = registrationCreds;
 
 		const passwordHash = await hashPassword(password);
+		console.log(passwordHash);
 
 		return new Promise((resolve, reject) => {
 			axios

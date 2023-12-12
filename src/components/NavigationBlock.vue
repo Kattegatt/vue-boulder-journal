@@ -9,6 +9,7 @@
 			>
 			<a
 				@click="emitRegistration"
+				href="/register"
 				class="text-white p-2 mx-2 bg-gray-700 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-2 py-2 text-center"
 				>Register</a
 			>
@@ -44,8 +45,8 @@ export default {
 			const registrationCreds = {
 				firstName: 'neame',
 				lastName: 'lasnm',
-				email: 'email@cmon',
-				password: 'PasssWsseord',
+				email: 'sas@cmon',
+				password: '123',
 			};
 
 			this.$emit('register-user', registrationCreds);
