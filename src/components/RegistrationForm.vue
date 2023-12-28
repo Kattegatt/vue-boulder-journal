@@ -1,6 +1,75 @@
 <template>
 	<form class="bg-slate-300 px-8 py-5 m-5 shadow-sm rounded-lg">
-		<div class="py-2">Registration</div>
+		<div>
+			<label class="form-control w-full max-w-xs">
+				<div class="label">
+					<span class="label-text text-primary-content">Name</span>
+				</div>
+				<input
+					v-model="firstName"
+					type="text"
+					id="firstName"
+					placeholder="Name"
+					class="input input-bordered bg-base-100 w-full max-w-xs"
+					required
+				/>
+				<div class="label"></div>
+			</label>
+			<label class="form-control w-full max-w-xs">
+				<div class="label">
+					<span class="label-text text-primary-content">Surname</span>
+				</div>
+				<input
+					v-model="lastName"
+					id="lastName"
+					type="text"
+					placeholder="Surname"
+					class="input input-bordered bg-base-100 w-full max-w-xs"
+					required
+				/>
+				<div class="label"></div>
+			</label>
+			<label class="form-control w-full max-w-xs">
+				<div class="label">
+					<span class="label-text text-primary-content">Email</span>
+				</div>
+				<input
+					v-model="email"
+					id="email"
+					type="email"
+					placeholder="email@.com"
+					class="input input-bordered bg-base-100 w-full max-w-xs"
+					required
+				/>
+				<div class="label"></div>
+			</label>
+			<label class="form-control w-full max-w-xs">
+				<div class="label">
+					<span class="label-text text-primary-content">Email</span>
+				</div>
+				<input
+					v-model="password"
+					id="password"
+					type="password"
+					placeholder="Password"
+					class="input input-bordered bg-base-100 w-full max-w-xs"
+					required
+				/>
+				<div class="label"></div>
+			</label>
+		</div>
+		<div class="py-1">
+			<button
+				class="btn btn-block"
+				@click="emitRegistration"
+				:disabled="this.isSubmitBtnDisabled"
+				type="submit"
+			>
+				Register
+			</button>
+		</div>
+
+		<!-- <div class="py-2">Registration</div>
 		<div class="mb-6">
 			<label for="email" class="block mb-2 text-sm font-medium text-gray-900"
 				>Your name</label
@@ -71,7 +140,7 @@
 			class="text-white bg-blue-700 disabled:opacity-10 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
 		>
 			Submit
-		</button>
+		</button> -->
 	</form>
 </template>
 
@@ -112,7 +181,7 @@ export default {
 	},
 	computed: {
 		isSubmitBtnDisabled() {
-			return !this.email || !this.password;
+			return !this.email || !this.password || !this.firstName || !this.lastName;
 		},
 	},
 };
