@@ -1,34 +1,31 @@
 <template>
-	<div class="flex justify-between items-center my-4 text-fuchsia-50">
-		<div class="flex ml-5">
-			<a
-				href="/"
-				class="text-white p-2 mx-2 bg-gray-700 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-2 py-2 text-center"
-				>Login</a
-			>
+	<div class="flex flex-row justify-between my-4">
+		<div class="flex flex-row ml-5 space-x-3">
+			<a href="/" class="btn btn-neutral text-white rounded-lg font-medium">Login</a>
 			<a
 				@click="emitRegistration"
 				href="/register"
-				class="text-white p-2 mx-2 bg-gray-700 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-2 py-2 text-center"
+				class="btn btn-neutral text-white rounded-lg font-medium"
 				>Register</a
 			>
 			<a
 				v-if="!skipLogin"
 				href="/home"
-				class="text-white p-2 mx-2 bg-gray-700 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-2 py-2 text-center"
+				class="btn btn-neutral text-white rounded-lg font-medium"
 				>Home</a
 			>
 		</div>
-		<!-- <div class="flex mr-5">
+		<div class="flex mr-5">
 			<a
 				@click="logUserOff"
 				v-if="!skipLogin"
 				href="/"
-				class="text-white p-2 mx-2 bg-gray-700 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center"
+				class="btn btn-neutral text-white rounded-lg font-medium"
 				>Log Off</a
 			>
-		</div> -->
+		</div>
 	</div>
+	<div class="divider"></div>
 </template>
 
 <script>
