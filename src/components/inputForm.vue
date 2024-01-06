@@ -93,7 +93,6 @@ export default {
 	methods: {
 		emitFormRoute() {
 			const route = {
-				date: this.inputDate,
 				name: this.inputName,
 				rating: this.inputRating,
 				attempts: 1,
