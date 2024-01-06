@@ -1,18 +1,6 @@
 <template>
 	<form action="#" method="post" class="bg-slate-300 px-8 py-5 m-5 shadow-sm rounded-lg">
 		<div class="mb-3">
-			<label for="date" class="block mb-2 text-sm font-medium text-gray-900">Date:</label>
-			<input
-				v-model="inputDate"
-				max="{{ today }}"
-				type="date"
-				id="date"
-				name="date"
-				required
-				class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-			/>
-		</div>
-		<div class="mb-3">
 			<label for="route-name" class="block mb-2 text-sm font-medium text-gray-900"
 				>Route Name:</label
 			>
