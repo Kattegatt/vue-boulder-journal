@@ -2,10 +2,10 @@ const db = require('../db');
 
 class RouteController {
 	async createRoute(req, res) {
-		const { name, rating, attempts, isPassed, date, comment, userId } = req.body;
+		const { name, rating, attempts, isPassed, comment, sessionId } = req.body;
 		const newRoute = await db.query(
-			`INSERT INTO public.route (name, rating, attempts, is_passed, date, comment, user_id) values ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-			[name, rating, attempts, isPassed, date, comment, userId]
+			`INSERT INTO public.route (name, rating, attempts, is_passed, comment, session_id) values ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+			[name, rating, attempts, isPassed, comment, sessionId]
 		);
 		res.json(newRoute.rows[0]);
 	}

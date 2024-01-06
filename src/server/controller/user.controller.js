@@ -2,7 +2,7 @@ const db = require('../db');
 
 class UserController {
 	async createUser(req, res) {
-		const { firstName, lastName, email, passwordHash } = req.body;
+		const { nickname, email, passwordHash } = req.body;
 
 		const existingUser = await db.query('SELECT * FROM public.user WHERE email = $1', [email]);
 
@@ -11,8 +11,8 @@ class UserController {
 		}
 
 		const newUser = await db.query(
-			`INSERT INTO public.user (first_name, last_name, email, password_hash) values ($1, $2, $3, $4) RETURNING *`,
-			[firstName, lastName, email, passwordHash]
+			`INSERT INTO public.user (nickname, email, password_hash) values ($1, $2, $3) RETURNING *`,
+			[nickname, email, passwordHash]
 		);
 		res.json(newUser.rows[0]);
 	}
@@ -27,10 +27,10 @@ class UserController {
 		res.json(user.rows[0]);
 	}
 	async updateUser(req, res) {
-		const { id, firstName, lastName, email, passwordHash } = req.body;
+		const { id, nickname, email, passwordHash } = req.body;
 		const updatedUser = await db.query(
-			`UPDATE public.user set first_name = $2, last_name = $3, email = $4, password_hash = $5 WHERE id = $1 RETURNING *`,
-			[id, firstName, lastName, email, passwordHash]
+			`UPDATE public.user set nickname = $2, email = $3, password_hash = $4 WHERE id = $1 RETURNING *`,
+			[id, nickname, email, passwordHash]
 		);
 
 		res.json(updatedUser.rows[0]);

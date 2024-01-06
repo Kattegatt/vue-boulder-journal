@@ -39,6 +39,7 @@ const DAYS_ON_PAGE = 3;
 export default {
 	data() {
 		return {
+			sessionStarted: false,
 			currentPage: 1,
 			searchInput: '',
 			trainingDaysList: [],

@@ -26,7 +26,7 @@ export default {
 	},
 
 	registration: async function (registrationCreds) {
-		const { firstName, lastName, email, password } = registrationCreds;
+		const { nickname, email, password } = registrationCreds;
 
 		const passwordHash = await hashPassword(password);
 		console.log(passwordHash);
@@ -34,8 +34,7 @@ export default {
 		return new Promise((resolve, reject) => {
 			axios
 				.post('http://localhost:8080/api/user', {
-					firstName,
-					lastName,
+					nickname,
 					email,
 					passwordHash,
 				})
