@@ -39,7 +39,6 @@ export default {
 					passwordHash,
 				})
 				.then(response => {
-					console.log('Registration successful', response);
 					resolve(response);
 				})
 				.catch(error => {

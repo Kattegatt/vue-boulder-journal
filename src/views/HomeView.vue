@@ -1,10 +1,10 @@
 <template>
 	<navigationBlock></navigationBlock>
 	<div class="flex flex-col items-center">
-		<button class="btn btn-wide btn-success" v-if="!sessionStarted" @click="switchSessionState">
+		<button class="btn btn-wide btn-success" v-if="!sessionStarted" @click="startSession">
 			Start New Training Session
 		</button>
-		<button class="btn btn-wide btn-error" v-if="sessionStarted" @click="switchSessionState">
+		<button class="btn btn-wide btn-error" v-if="sessionStarted" @click="finishSession">
 			Finish Session
 		</button>
 	</div>
@@ -35,8 +35,10 @@ import searchBar from '../components/searchBar.vue';
 import trainingHistory from '../components/trainingHistory.vue';
 import navigationBlock from '../components/NavigationBlock.vue';
 
-const DAYS_ON_PAGE = 3;
+import sessionAPI from '../services/sessionAPI';
 
+const DAYS_ON_PAGE = 3;
+const USER_ID = 5;
 export default {
 	data() {
 		return {
@@ -53,11 +55,7 @@ export default {
 		trainingHistory,
 		navigationBlock,
 	},
-	created() {
-		const routesData = localStorage.getItem('routesStorage');
-
-		if (routesData) this.routes = JSON.parse(routesData);
-	},
+	created() {},
 
 	computed: {
 		paginatedTrainingDaysList() {
@@ -72,11 +70,37 @@ export default {
 		},
 	},
 	methods: {
-		logNewSession() {},
-		switchSessionState() {
-			this.sessionStarted = !this.sessionStarted;
-			if (this.sessionStarted) this.logNewSession();
+		startSession() {
+			this.sessionStarted = true;
+
+			sessionAPI
+				.createTrainingSession(USER_ID)
+				.then(responseData => {
+					console.log('Session created', responseData);
+					sessionStorage.setItem('activeSession', responseData.data.session_id);
+				})
+				.catch(error => {
+					console.log('error', error);
+				});
 		},
+		finishSession() {
+			this.sessionStarted = false;
+			const sessionId = sessionStorage.getItem('activeSession');
+
+			sessionAPI
+				.closeTrainingSession(sessionId)
+				.then(responseData => {
+					console.log('Session finished', responseData);
+					sessionStorage.removeItem('activeSession');
+				})
+				.catch(error => {
+					console.log('error', error);
+				});
+		},
+		// switchSessionState() {
+		// 	this.sessionStarted = !this.sessionStarted;
+		// 	if (this.sessionStarted) this.logNewSession();
+		// },
 		nextPage() {
 			if (!this.isLastPage) this.currentPage += 1;
 		},

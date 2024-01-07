@@ -30,7 +30,7 @@ export default {
 			authService
 				.registration(registrationCreds)
 				.then(responseData => {
-					console.log({ successfulResponse: responseData });
+					console.log({ successfulRegistration: responseData });
 				})
 				.catch(error => {
 					console.log({ error: error });
