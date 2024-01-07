@@ -16,13 +16,13 @@ class RouteController {
 	}
 	async getOneRoute(req, res) {
 		const id = req.params.id;
-		const route = await db.query(`SELECT * FROM public.route WHERE id = $1`, [id]);
+		const route = await db.query(`SELECT * FROM public.route WHERE route_id = $1`, [id]);
 		res.json(route.rows[0]);
 	}
 	async updateRoute(req, res) {
 		const { id, attempts, isPassed, comment } = req.body;
 		const updatedRoute = await db.query(
-			`UPDATE public.route set attempts = $2, isPassed = $3, comment = $4 WHERE id = $1 RETURNING *`,
+			`UPDATE public.route set attempts = $2, isPassed = $3, comment = $4 WHERE route_id = $1 RETURNING *`,
 			[id, attempts, isPassed, comment]
 		);
 
@@ -30,7 +30,7 @@ class RouteController {
 	}
 	async deleteRoute(req, res) {
 		const id = req.params.id;
-		const deletedRoute = await db.query(`delete from public.route where id = $1`, [id]);
+		const deletedRoute = await db.query(`delete from public.route where route_id = $1`, [id]);
 		res.json(deletedRoute.rows[0]);
 	}
 }

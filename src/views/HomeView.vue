@@ -72,8 +72,10 @@ export default {
 		},
 	},
 	methods: {
+		logNewSession() {},
 		switchSessionState() {
 			this.sessionStarted = !this.sessionStarted;
+			if (this.sessionStarted) this.logNewSession();
 		},
 		nextPage() {
 			if (!this.isLastPage) this.currentPage += 1;
